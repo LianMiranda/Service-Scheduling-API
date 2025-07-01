@@ -11,10 +11,12 @@ namespace ServiceScheduling.Application.Services;
 public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
+    private readonly IPasswordHasher _passwordHasher;
 
-    public UserService(IUserRepository userRepository)
+    public UserService(IUserRepository userRepository, IPasswordHasher passwordHasher)
     {
         _userRepository = userRepository;
+        _passwordHasher = passwordHasher;
     }
 
     public async Task SaveAsync(CreateUserDto user, CancellationToken cancellationToken = default)
@@ -32,6 +34,10 @@ public class UserService : IUserService
             if (prop.PropertyType == typeof(string) && string.IsNullOrWhiteSpace(value.ToString()))
                 throw new ArgumentNullException($"{prop.Name}");
         }
+        
+        string passwordHash = _passwordHasher.Hash(user.Password);
+
+        user.Password = passwordHash;
 
         await _userRepository.SaveAsync(user.ToEntity(), cancellationToken);
     }
