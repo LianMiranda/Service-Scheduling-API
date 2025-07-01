@@ -129,7 +129,7 @@ namespace ServiceScheduling.Infra.Data.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("longtext")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("email");
 
                     b.Property<string>("Name")
@@ -147,6 +147,9 @@ namespace ServiceScheduling.Infra.Data.Migrations
                         .HasColumnName("profileId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.HasIndex("ProfileId");
 

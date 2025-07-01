@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 using ServiceScheduling.Domain.Enums;
 
 namespace ServiceScheduling.Domain.Entities;
@@ -9,10 +10,14 @@ public class User
 {
     [Key] [Column("id")] public Guid Id { get; private set; }
 
-    [Column("name")] public string Name { get; private set; }
-    [Column("email")] public string Email { get; private set; }
-    [Column("password")] public string Password { get; private set; }
-    [ForeignKey("profileId")] [Column("profileId")] public int ProfileId { get; private set; }
+    [Column("name")] [Required] public string Name { get; private set; }
+    [Column("email")] [Required] public string Email { get; private set; }
+    [Column("password")] [Required] public string Password { get; private set; }
+
+    [ForeignKey("profileId")]
+    [Column("profileId")]
+    [Required]
+    public int ProfileId { get; private set; }
     public Profile Profile { get; private set; }
     public ICollection<Service> Services { get; private set; } = new List<Service>();
 
@@ -41,5 +46,20 @@ public class User
     public void RemoveService(Service service)
     {
         Services.Remove(service);
+    }
+
+    public void UpdateName(string newName)
+    {
+        Name = newName;
+    }
+
+    public void UpdateEmail(string newEmail)
+    {
+        Email = newEmail;
+    }
+
+    public void UpdatePassword(string newPassword)
+    {
+        Password = newPassword;
     }
 }

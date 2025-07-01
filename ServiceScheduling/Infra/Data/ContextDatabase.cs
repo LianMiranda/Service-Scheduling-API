@@ -9,14 +9,16 @@ public class ContextDatabase : DbContext
     public ContextDatabase(DbContextOptions options) : base(options)
     {
     }
-    
+
+    public DbSet<User> Users { get; set; } = null!;
     DbSet<Service> Services { get; set; }
     DbSet<Appointment> Appointments { get; set; }
-    DbSet<User> Users { get; set; }
     DbSet<Profile> Profiles { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
+
         modelBuilder.Entity<Profile>().HasData(
             new Profile(1, UserRoleEnum.Client),
             new Profile(2, UserRoleEnum.Admin)
