@@ -11,9 +11,9 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<User> Users { get; set; } = null!;
-    DbSet<Service> Services { get; set; }
-    DbSet<Appointment> Appointments { get; set; }
-    DbSet<Profile> Profiles { get; set; }
+    public DbSet<Service> Services { get; set; } = null!;
+    public DbSet<Appointment> Appointments { get; set; } = null!;
+    private DbSet<Profile> Profiles { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
