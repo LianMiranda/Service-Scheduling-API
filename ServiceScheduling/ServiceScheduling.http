@@ -1,6 +1,0 @@
-@ServiceScheduling_HostAddress = http://localhost:5239
-
-GET {{ServiceScheduling_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
