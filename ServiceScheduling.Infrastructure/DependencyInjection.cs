@@ -1,8 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using ServiceScheduling.Application.Interfaces;
 using ServiceScheduling.Domain.Interfaces;
-using ServiceScheduling.Infra.Repositories;
-using ServiceScheduling.Infra.Security;
+using ServiceScheduling.Infrastructure.Repositories;
+using ServiceScheduling.Infrastructure.Security;
 
 namespace ServiceScheduling.Infrastructure;
 

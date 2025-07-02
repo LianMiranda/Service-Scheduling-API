@@ -2,8 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using ServiceScheduling.Domain.Entities;
 using ServiceScheduling.Domain.Interfaces;
 using ServiceScheduling.Infra.Data;
+using ServiceScheduling.Infrastructure.Data;
 
-namespace ServiceScheduling.Infra.Repositories;
+namespace ServiceScheduling.Infrastructure.Repositories;
 
 public class ServiceRepository : IServiceRepository
 {

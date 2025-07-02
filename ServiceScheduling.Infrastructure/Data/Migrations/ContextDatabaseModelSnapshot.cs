@@ -8,7 +8,7 @@ using ServiceScheduling.Infra.Data;
 
 #nullable disable
 
-namespace ServiceScheduling.Infra.Data.Migrations
+namespace ServiceScheduling.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     partial class ContextDatabaseModelSnapshot : ModelSnapshot

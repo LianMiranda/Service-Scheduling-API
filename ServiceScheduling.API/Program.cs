@@ -1,14 +1,9 @@
-using ServiceScheduling.Application.UseCases;
 using Environment = System.Environment;
 using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
 using ServiceScheduling.Application;
-using ServiceScheduling.Application.Interfaces;
-using ServiceScheduling.Domain.Interfaces;
-using ServiceScheduling.Infra.Data;
-using ServiceScheduling.Infra.Repositories;
-using ServiceScheduling.Infra.Security;
 using ServiceScheduling.Infrastructure;
+using ServiceScheduling.Infrastructure.Data;
 
 Env.Load();
 

@@ -1,7 +1,7 @@
 using System.Security.Cryptography;
 using ServiceScheduling.Application.Interfaces;
 
-namespace ServiceScheduling.Infra.Security;
+namespace ServiceScheduling.Infrastructure.Security;
 
 public class PasswordHasher : IPasswordHasher
 {

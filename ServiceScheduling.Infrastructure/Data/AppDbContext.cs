@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ServiceScheduling.Domain.Entities;
 using ServiceScheduling.Domain.Enums;
 
-namespace ServiceScheduling.Infra.Data;
+namespace ServiceScheduling.Infrastructure.Data;
 
 public class AppDbContext : DbContext
 {

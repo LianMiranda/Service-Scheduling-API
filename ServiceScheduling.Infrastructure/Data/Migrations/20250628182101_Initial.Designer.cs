@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ServiceScheduling.Infra.Data;
+using ServiceScheduling.Infrastructure.Data;
 
 #nullable disable
 

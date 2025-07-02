@@ -1,12 +1,10 @@
-using System.Globalization;
 using Microsoft.EntityFrameworkCore;
-using ServiceScheduling.Application.DTOs;
-using ServiceScheduling.Application.Extensions;
 using ServiceScheduling.Domain.Entities;
 using ServiceScheduling.Domain.Interfaces;
 using ServiceScheduling.Infra.Data;
+using ServiceScheduling.Infrastructure.Data;
 
-namespace ServiceScheduling.Infra.Repositories;
+namespace ServiceScheduling.Infrastructure.Repositories;
 
 public class UserRepository : IUserRepository
 {
