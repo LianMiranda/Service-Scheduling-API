@@ -1,6 +1,7 @@
-using ServiceScheduling.Domain.Entities;
+using ServiceScheduling.Application.DTOs.Profile;
+using ServiceScheduling.Application.DTOs.Service;
 
-namespace ServiceScheduling.Application.DTOs;
+namespace ServiceScheduling.Application.DTOs.User;
 
 public class ViewUserDto
 {
@@ -8,5 +9,5 @@ public class ViewUserDto
     public string Name { get; set; }
     public string Email { get; set; }
     public ProfileDto Profile { get; set; }
-    public ICollection<ServiceDto> Services { get; set; } = new List<ServiceDto>();
+    public ICollection<ViewServiceDto> Services { get; set; } = new List<ViewServiceDto>();
 }

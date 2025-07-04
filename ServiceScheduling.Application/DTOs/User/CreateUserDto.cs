@@ -1,6 +1,4 @@
-using ServiceScheduling.Domain.Entities;
-
-namespace ServiceScheduling.Application.DTOs;
+namespace ServiceScheduling.Application.DTOs.User;
 
 public class CreateUserDto
 {

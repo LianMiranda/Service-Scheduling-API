@@ -1,4 +1,4 @@
-namespace ServiceScheduling.Application.DTOs;
+namespace ServiceScheduling.Application.DTOs.User;
 
 public class UpdateUserDto
 {
