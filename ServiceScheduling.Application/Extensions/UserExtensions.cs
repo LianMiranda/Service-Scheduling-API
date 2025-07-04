@@ -1,5 +1,8 @@
 using System.Linq.Expressions;
 using ServiceScheduling.Application.DTOs;
+using ServiceScheduling.Application.DTOs.Profile;
+using ServiceScheduling.Application.DTOs.Service;
+using ServiceScheduling.Application.DTOs.User;
 using ServiceScheduling.Domain.Entities;
 
 namespace ServiceScheduling.Application.Extensions;
@@ -19,13 +22,13 @@ public static class UserExtensions
             Name = user.Name,
             Email = user.Email,
             Profile = new ProfileDto { Role = user.Profile.Role },
-            Services = user.Services.Select(s => new ServiceDto
+            Services = user.Services.Select(s => new ViewServiceDto()
                 {
+                    Id = s.Id,
                     Name = s.Name,
                     Description = s.Description,
                     Price = s.Price,
                     ImageUrl = s.ImageUrl,
-                    Provider = s.Provider,
                 }
             ).ToList()
         };
