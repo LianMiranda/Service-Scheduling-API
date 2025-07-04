@@ -1,4 +1,4 @@
-using ServiceScheduling.Application.DTOs;
+using ServiceScheduling.Application.DTOs.User;
 
 namespace ServiceScheduling.Application.UseCases.User.GetById;
 

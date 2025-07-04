@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ServiceScheduling.Application.DTOs;
+using ServiceScheduling.Application.DTOs.User;
 
 namespace ServiceScheduling.API.Controller.User;
 
