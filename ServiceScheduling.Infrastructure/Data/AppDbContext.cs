@@ -21,7 +21,7 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<Profile>().HasData(
             new Profile(1, UserRoleEnum.Client),
-            new Profile(2, UserRoleEnum.Admin)
+            new Profile(2, UserRoleEnum.Provider)
         );
     }
 }
