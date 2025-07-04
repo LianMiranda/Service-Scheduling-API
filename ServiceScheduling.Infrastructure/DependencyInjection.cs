@@ -12,6 +12,7 @@ public static class DependencyInjection
     {
         services.AddTransient<IUserRepository, UserRepository>();
         services.AddTransient<IPasswordHasher, PasswordHasher>();
+        services.AddTransient<IServiceRepository, ServiceRepository>();
         return services;
     }
 }

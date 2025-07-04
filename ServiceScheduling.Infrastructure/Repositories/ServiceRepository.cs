@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ServiceScheduling.Domain.Entities;
 using ServiceScheduling.Domain.Interfaces;
-using ServiceScheduling.Infra.Data;
 using ServiceScheduling.Infrastructure.Data;
 
 namespace ServiceScheduling.Infrastructure.Repositories;
@@ -9,6 +8,11 @@ namespace ServiceScheduling.Infrastructure.Repositories;
 public class ServiceRepository : IServiceRepository
 {
     private readonly AppDbContext _context;
+
+    public ServiceRepository(AppDbContext context)
+    {
+        _context = context;
+    }
 
     public async Task SaveAsync(Service service, CancellationToken cancellationToken = default)
     {
