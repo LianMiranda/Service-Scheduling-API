@@ -23,17 +23,14 @@ public class Service
     {
     }
 
-    public Service(string name, string description, double price, string imageUrl, User provider)
+    public Service(string name, string description, double price, string imageUrl, Guid providerId)
     {
-        if (provider == null) throw new ArgumentNullException(nameof(provider));
-
         Id = Guid.NewGuid();
         Name = name;
         Description = description;
         Price = price;
         ImageUrl = imageUrl;
-        ProviderId = provider.Id;
-        Provider = provider;
+        ProviderId = providerId;
     }
 
     public void AddAppointment(Appointment appointment)
@@ -44,5 +41,27 @@ public class Service
     public void RemoveAppointment(Appointment appointment)
     {
         Appointments.Remove(appointment);
+    }
+
+    public void UpdateName(string newName)
+    {
+        Name = newName;
+    }
+    public void UpdateDescription(string newDescription)
+    {
+        Description = newDescription;
+    }
+    public void UpdatePrice(double newPrice)
+    {
+        Price = newPrice;
+    }
+    
+    public void UpdateImageUrl(string newImageUrl)
+    {
+        ImageUrl = newImageUrl;
+    }
+    public void UpdateProviderId(Guid newProviderId)
+    {
+        ProviderId = newProviderId;
     }
 }
