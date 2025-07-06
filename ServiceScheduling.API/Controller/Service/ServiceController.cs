@@ -1,6 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ServiceScheduling.Application.DTOs.Service;
+using ServiceScheduling.Application.Interfaces;
+
 
 namespace ServiceScheduling.API.Controller.Service;
 
@@ -8,13 +10,31 @@ namespace ServiceScheduling.API.Controller.Service;
 [Route("api/v1/service")]
 public class ServiceController : ControllerBase
 {
+    private readonly IAwsS3Service _s3Service;
+
+    public ServiceController(IAwsS3Service s3Service)
+    {
+        _s3Service = s3Service;
+    }
+
     [HttpPost]
-    public async Task<IActionResult> SaveAsync(ISender sender, [FromBody] CreateServiceDto service,
+    public async Task<IActionResult> SaveAsync(ISender sender, [FromForm] CreateServiceWithFileDto service,
         CancellationToken cancellationToken)
     {
+        string key = null;
+        var file = service.File;
         try
         {
-            var command = new ServiceScheduling.Application.UseCases.Service.Save.Command(service);
+            if (file.Length != 0)
+            {
+                await using var stream = file.OpenReadStream();
+
+                key = service.Name + "-" + Guid.NewGuid();
+
+                await _s3Service.UploadFileAsync(stream, key, file.ContentType, cancellationToken);
+            }
+
+            var command = new ServiceScheduling.Application.UseCases.Service.Save.Command(service, key);
             var result = await sender.Send(command, cancellationToken);
 
             if (result.isFailure)
@@ -24,7 +44,7 @@ public class ServiceController : ControllerBase
                 return BadRequest(result.Error.Message);
             }
 
-            return Created();
+            return StatusCode(201);
         }
         catch (InvalidOperationException e)
         {
