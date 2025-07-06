@@ -2,7 +2,8 @@ using Environment = System.Environment;
 using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
 using ServiceScheduling.Application;
-using ServiceScheduling.Infrastructure;
+using ServiceScheduling.Infrastructure.Aws;
+using ServiceScheduling.Infrastructure.Configurations;
 using ServiceScheduling.Infrastructure.Data;
 
 Env.Load();
@@ -14,6 +15,14 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure();
+
+builder.Services.Configure<AwsS3Settings>(options =>
+{
+    options.AccessKey = Environment.GetEnvironmentVariable("AWS_KEY_ID") ?? string.Empty;
+    options.SecretKey = Environment.GetEnvironmentVariable("AWS_KEY_SECRET") ?? string.Empty;
+    options.Region = Environment.GetEnvironmentVariable("AWS_REGION");
+    options.BucketName = Environment.GetEnvironmentVariable("AWS_BUCKET") ?? string.Empty;
+});
 
 var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseMySql(connectionString,
