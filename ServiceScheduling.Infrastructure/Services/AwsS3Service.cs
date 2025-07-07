@@ -51,6 +51,22 @@ public class AwsS3Service : IAwsS3Service
 
         await _client.DeleteObjectAsync(req, cancellationToken);
     }
+    
+    public async Task<Stream> DownloadFileAsync(string key, CancellationToken cancellationToken = default)
+    {
+        var req = new GetObjectRequest
+        {
+            BucketName = _bucketName,
+            Key = key
+        };
+
+        var response = await _client.GetObjectAsync(req, cancellationToken);
+        var memoryStream = new MemoryStream();
+        await response.ResponseStream.CopyToAsync(memoryStream, cancellationToken);
+        memoryStream.Position = 0;
+        
+        return memoryStream;
+    }
 
     public string GetFileUrl(string key, CancellationToken cancellationToken = default)
     {

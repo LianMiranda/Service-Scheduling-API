@@ -1,3 +1,4 @@
+using Amazon.S3;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ServiceScheduling.Application.DTOs.Service;
@@ -28,9 +29,7 @@ public class ServiceController : ControllerBase
             if (file.Length != 0)
             {
                 await using var stream = file.OpenReadStream();
-
                 key = service.Name + "-" + Guid.NewGuid();
-
                 await _s3Service.UploadFileAsync(stream, key, file.ContentType, cancellationToken);
             }
 
@@ -90,6 +89,39 @@ public class ServiceController : ControllerBase
         catch (Exception e)
         {
             Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    [HttpGet]
+    [Route("img/{serviceId}")]
+    public async Task<IActionResult> GetServiceImageAsync(ISender sender, Guid serviceId,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            var command = new ServiceScheduling.Application.UseCases.Service.GetById.Command(serviceId);
+            var service = await sender.Send(command, cancellationToken);
+
+            if (service.isFailure) return NotFound(service.Error.Message);
+
+            var key = service.Value.Service.ImageUrl;
+
+            if (string.IsNullOrEmpty(key)) return NotFound("Image not registered");
+
+            var imageStream = await _s3Service.DownloadFileAsync(key, cancellationToken);
+
+            if (imageStream.Length == 0) return NotFound("Image not found");
+
+            return File(imageStream, "image/jpeg");
+        }
+        catch (AmazonS3Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
             throw;
         }
     }
