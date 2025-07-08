@@ -9,20 +9,6 @@ public sealed class Handler(IUserRepository repository, IPasswordHasher password
 {
     public async Task<Result<Response>> Handle(Command request, CancellationToken cancellationToken)
     {
-        var properties = request.User.GetType().GetProperties();
-
-        foreach (var prop in properties)
-        {
-            var value = prop.GetValue(request.User);
-
-            if (value == null)
-                return Result.Failure<Response>(new Error("400", $"Argument {prop.Name} is null"));
-
-
-            if (prop.PropertyType == typeof(string) && string.IsNullOrWhiteSpace(value.ToString()))
-                return Result.Failure<Response>(new Error("400", $"Argument {prop.Name} is null"));;
-        }
-        
         string passwordHash = passwordHasher.Hash(request.User.Password);
 
         request.User.Password = passwordHash;
