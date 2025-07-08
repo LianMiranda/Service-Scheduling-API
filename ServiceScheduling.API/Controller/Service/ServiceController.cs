@@ -133,7 +133,7 @@ public class ServiceController : ControllerBase
     [HttpPut]
     [Route("{serviceId}")]
     public async Task<IActionResult> UpdateAsync(ISender sender, Guid serviceId,
-        CancellationToken cancellationToken, [FromBody] UpdateServiceDto serviceData)
+        CancellationToken cancellationToken, [FromForm] UpdateServiceDto serviceData)
     {
         try
         {
