@@ -22,10 +22,10 @@ public static class ServiceExtension
             dto.ProviderId
         );
     }
-    
-    public static ViewServiceDto ToDto(this Service service)
+
+    public static ViewServiceWithProviderDto ToDto(this Service service)
     {
-        return new ViewServiceDto
+        return new ViewServiceWithProviderDto()
         {
             Id = service.Id,
             Name = service.Name,
