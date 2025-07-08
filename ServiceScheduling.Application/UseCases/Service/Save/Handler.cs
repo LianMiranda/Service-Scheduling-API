@@ -10,43 +10,15 @@ public class Handler(IServiceRepository serviceRepository, IUserRepository userR
 {
     public async Task<Result<Response>> Handle(Command request, CancellationToken cancellationToken)
     {
-        var properties = request.Service.GetType().GetProperties();
-
-        foreach (var prop in properties)
-        {
-            var value = prop.GetValue(request.Service);
-
-            if (value == null) return Result.Failure<Response>(new Error("400", $"Argument {prop.Name} is null"));
-
-            if (prop.PropertyType == typeof(string) && string.IsNullOrWhiteSpace(value.ToString()))
-                return Result.Failure<Response>(new Error("400", $"Argument {prop.Name} is null"));
-        }
-
         var verifyUserRole = await userRepository.GetByIdAsync(request.Service.ProviderId, cancellationToken);
 
-        if (verifyUserRole?.ProfileId == 2)
-        {
-            CreateServiceDto service;
-
-            if (request.ImagePath == null)
-            {
-                service = request.Service.ToCreateServiceDto(null);
-            }
-            else
-            {
-                service = request.Service.ToCreateServiceDto(request.ImagePath);
-            }
-
-            var entity = service.ToEntity();
-            await serviceRepository.SaveAsync(entity, cancellationToken);
-        }
-        else
-        {
+        if (verifyUserRole?.ProfileId != 2)
             return Result.Failure<Response>(new Error("401", "you are not authorized"));
-        }
 
-        return verifyUserRole is null
-            ? Result.Failure<Response>(new Error("400", $"Provider is null"))
-            : Result.Success(new Response());
+        var service = request.Service.ToCreateServiceDto(request.ImagePath);
+        var entity = service.ToEntity();
+
+        await serviceRepository.SaveAsync(entity, cancellationToken);
+        return Result.Success(new Response());
     }
 }

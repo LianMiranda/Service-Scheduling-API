@@ -12,7 +12,7 @@ public static class ServiceExtension
         return new Service(dto.Name, dto.Description, dto.Price, dto.ImageUrl!, dto.ProviderId);
     }
 
-    public static CreateServiceDto ToCreateServiceDto(this CreateServiceWithFileDto dto, string imageUrl)
+    public static CreateServiceDto ToCreateServiceDto(this CreateServiceWithFileDto dto, string? imageUrl)
     {
         return new CreateServiceDto(
             dto.Name,

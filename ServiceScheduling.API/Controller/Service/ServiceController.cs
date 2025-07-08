@@ -22,11 +22,15 @@ public class ServiceController : ControllerBase
     public async Task<IActionResult> SaveAsync(ISender sender, [FromForm] CreateServiceWithFileDto service,
         CancellationToken cancellationToken)
     {
-        string key = null;
+        var key = string.Empty;
         var file = service.File;
+
         try
         {
-            if (file.Length != 0)
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (file != null && file.Length != 0)
             {
                 await using var stream = file.OpenReadStream();
                 key = service.Name + "-" + Guid.NewGuid();
