@@ -27,13 +27,13 @@ public class Appointment
     {
     }
 
-    public Appointment( DateTime date, AppointmentStatus status, Guid clientId, Guid serviceId)
+    public Appointment( DateTime date, Guid clientId, Guid serviceId)
     {
         Id = Guid.NewGuid();
         ServiceId = serviceId;
         ClientId = clientId;
         Date = date;
-        Status = status;
+        Status = AppointmentStatus.Scheduled;
     }
     
     public void UpdateDate(DateTime date)
