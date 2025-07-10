@@ -13,13 +13,13 @@ public class Appointment
     [Column("clientId")]
     public Guid ClientId { get; private set; }
 
-    public User Client { get; private set; }
+    public User Client { get; private set; } = null!;
 
     [ForeignKey("serviceId")]
     [Column("serviceId")]
     public Guid ServiceId { get; private set; }
 
-    public Service Service { get; private set; }
+    public Service Service { get; private set; } = null!;
     [Column("date")] public DateTime Date { get; private set; }
     [Column("status")] public AppointmentStatus Status { get; private set; }
 
@@ -27,23 +27,11 @@ public class Appointment
     {
     }
 
-    public Appointment(User client, Service service, DateTime date, AppointmentStatus status)
+    public Appointment( DateTime date, AppointmentStatus status, Guid clientId, Guid serviceId)
     {
-        if (client == null)
-        {
-            throw new ArgumentNullException(nameof(client));
-        }
-
-        if (service == null)
-        {
-            throw new ArgumentNullException(nameof(service));
-        }
-
         Id = Guid.NewGuid();
-        ServiceId = service.Id;
-        Service = service;
-        Client = client;
-        ClientId = client.Id;
+        ServiceId = serviceId;
+        ClientId = clientId;
         Date = date;
         Status = status;
     }
