@@ -16,7 +16,7 @@ public static class UserExtensions
 
     public static ViewUserDto ToDto(this User user)
     {
-        return new ViewUserDto()
+        return new ViewUserDto
         {
             Id = user.Id,
             Name = user.Name,

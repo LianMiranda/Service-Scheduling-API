@@ -11,6 +11,18 @@ public class ViewServiceDto
     public string Description { get; set; }
     public double Price { get; set; }
     public string ImageUrl { get; set; }
+
+    public ViewServiceDto()
+    {
+    }
+
+    public ViewServiceDto(string name, string description, double price, string imageUrl)
+    {
+        Name = name;
+        Description = description;
+        Price = price;
+        ImageUrl = imageUrl;
+    }
 }
 
 public class ViewServiceWithProviderDto : ViewServiceDto

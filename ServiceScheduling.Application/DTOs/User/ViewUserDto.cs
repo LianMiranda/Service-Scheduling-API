@@ -10,4 +10,14 @@ public class ViewUserDto
     public string Email { get; set; }
     public ProfileDto Profile { get; set; }
     public ICollection<ViewServiceDto> Services { get; set; } = new List<ViewServiceDto>();
+
+    public ViewUserDto(string name, string email)
+    {
+        Name = name;
+        Email = email;
+    }
+
+    public ViewUserDto()
+    {
+    }
 }
