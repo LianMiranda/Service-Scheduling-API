@@ -35,4 +35,24 @@ public class Appointment
         Date = date;
         Status = status;
     }
+    
+    public void UpdateDate(DateTime date)
+    {
+        Date = date;
+    }
+    
+    public void UpdateStatus(AppointmentStatus status)
+    {
+        Status = status;
+    }
+    
+    public void UpdateClientId(Guid clientId)
+    {
+        ClientId = clientId;
+    }
+    
+    public void UpdateServiceId(Guid serviceId)
+    {
+        ServiceId = serviceId;
+    }
 }
