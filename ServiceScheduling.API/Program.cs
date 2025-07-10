@@ -20,7 +20,7 @@ builder.Services.Configure<AwsS3Settings>(options =>
 {
     options.AccessKey = Environment.GetEnvironmentVariable("AWS_KEY_ID") ?? string.Empty;
     options.SecretKey = Environment.GetEnvironmentVariable("AWS_KEY_SECRET") ?? string.Empty;
-    options.Region = Environment.GetEnvironmentVariable("AWS_REGION");
+    options.Region = Environment.GetEnvironmentVariable("AWS_REGION") ?? string.Empty;
     options.BucketName = Environment.GetEnvironmentVariable("AWS_BUCKET") ?? string.Empty;
 });
 
