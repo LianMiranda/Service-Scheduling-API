@@ -9,17 +9,18 @@ public static class AppointmentExtension
 {
     public static Appointment ToEntity(this CreateAppointmentDto dto)
     {
-        return new Appointment(dto.Date, dto.Status, dto.ClientId, dto.ServiceId);
+        return new Appointment(dto.Date, dto.ClientId, dto.ServiceId);
     }
     
     public static ViewAppointmentDto ToDto(this Appointment appointment)
     {
         return new ViewAppointmentDto
         {
+            Id = appointment.Id,
             Date = appointment.Date,
             Status = appointment.Status,  
-            Client = new ViewUserDto(appointment.Client.Name, appointment.Client.Email),
-            Service = new ViewServiceDto(appointment.Service.Name, appointment.Service.Description, appointment.Service.Price, appointment.Service.ImageUrl)
+            Client = new ViewLimitedUserDto(appointment.Client.Name, appointment.Client.Email),
+            Service = new ViewLimitedServiceDto(appointment.Service.Name, appointment.Service.Description, appointment.Service.Price)
         };
     }
 }

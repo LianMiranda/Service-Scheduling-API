@@ -16,12 +16,27 @@ public class ViewServiceDto
     {
     }
 
-    public ViewServiceDto(string name, string description, double price, string imageUrl)
+    public ViewServiceDto(Guid id, string name, string description, double price, string imageUrl)
     {
+        Id = id;
         Name = name;
         Description = description;
         Price = price;
         ImageUrl = imageUrl;
+    }
+}
+
+public class ViewLimitedServiceDto
+{
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public double Price { get; set; }
+
+    public ViewLimitedServiceDto(string name, string description, double price)
+    {
+        Name = name;
+        Description = description;
+        Price = price;
     }
 }
 
