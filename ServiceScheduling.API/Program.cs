@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Environment = System.Environment;
 using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(opt => opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure();
 
