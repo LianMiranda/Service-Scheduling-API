@@ -1,6 +1,9 @@
+using Amazon.S3;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ServiceScheduling.Application.DTOs.Service;
+using ServiceScheduling.Application.Interfaces;
+
 
 namespace ServiceScheduling.API.Controller.Service;
 
@@ -8,13 +11,33 @@ namespace ServiceScheduling.API.Controller.Service;
 [Route("api/v1/service")]
 public class ServiceController : ControllerBase
 {
+    private readonly IAwsS3Service _s3Service;
+
+    public ServiceController(IAwsS3Service s3Service)
+    {
+        _s3Service = s3Service;
+    }
+
     [HttpPost]
-    public async Task<IActionResult> SaveAsync(ISender sender, [FromBody] CreateServiceDto service,
+    public async Task<IActionResult> SaveAsync(ISender sender, [FromForm] CreateServiceWithFileDto service,
         CancellationToken cancellationToken)
     {
+        var key = string.Empty;
+        var file = service.File;
+
         try
         {
-            var command = new ServiceScheduling.Application.UseCases.Service.Save.Command(service);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (file != null && file.Length != 0)
+            {
+                await using var stream = file.OpenReadStream();
+                key = service.Name + "-" + Guid.NewGuid();
+                await _s3Service.UploadFileAsync(stream, key, file.ContentType, cancellationToken);
+            }
+
+            var command = new ServiceScheduling.Application.UseCases.Service.Save.Command(service, key);
             var result = await sender.Send(command, cancellationToken);
 
             if (result.isFailure)
@@ -24,7 +47,7 @@ public class ServiceController : ControllerBase
                 return BadRequest(result.Error.Message);
             }
 
-            return Created();
+            return StatusCode(201);
         }
         catch (InvalidOperationException e)
         {
@@ -74,10 +97,43 @@ public class ServiceController : ControllerBase
         }
     }
 
+    [HttpGet]
+    [Route("img/{serviceId}")]
+    public async Task<IActionResult> GetServiceImageAsync(ISender sender, Guid serviceId,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            var command = new ServiceScheduling.Application.UseCases.Service.GetById.Command(serviceId);
+            var service = await sender.Send(command, cancellationToken);
+
+            if (service.isFailure) return NotFound(service.Error.Message);
+
+            var key = service.Value.Service.ImageUrl;
+
+            if (string.IsNullOrEmpty(key)) return NotFound("Image not registered");
+
+            var imageStream = await _s3Service.DownloadFileAsync(key, cancellationToken);
+
+            if (imageStream.Length == 0) return NotFound("Image not found");
+
+            return File(imageStream, "image/jpeg");
+        }
+        catch (AmazonS3Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            throw;
+        }
+    }
+
     [HttpPut]
     [Route("{serviceId}")]
     public async Task<IActionResult> UpdateAsync(ISender sender, Guid serviceId,
-        CancellationToken cancellationToken, [FromBody] UpdateServiceDto serviceData)
+        CancellationToken cancellationToken, [FromForm] UpdateServiceDto serviceData)
     {
         try
         {

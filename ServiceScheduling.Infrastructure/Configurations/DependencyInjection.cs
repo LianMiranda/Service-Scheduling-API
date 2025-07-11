@@ -1,10 +1,13 @@
+using Amazon.S3;
 using Microsoft.Extensions.DependencyInjection;
 using ServiceScheduling.Application.Interfaces;
 using ServiceScheduling.Domain.Interfaces;
+using ServiceScheduling.Infrastructure.Aws;
 using ServiceScheduling.Infrastructure.Repositories;
 using ServiceScheduling.Infrastructure.Security;
+using ServiceScheduling.Infrastructure.Services;
 
-namespace ServiceScheduling.Infrastructure;
+namespace ServiceScheduling.Infrastructure.Configurations;
 
 public static class DependencyInjection
 {
@@ -13,6 +16,10 @@ public static class DependencyInjection
         services.AddTransient<IUserRepository, UserRepository>();
         services.AddTransient<IPasswordHasher, PasswordHasher>();
         services.AddTransient<IServiceRepository, ServiceRepository>();
+        services.AddTransient<IAwsS3Service, AwsS3Service>();
+        services.AddTransient<AwsS3Settings>();
+        services.AddAWSService<IAmazonS3>();
+
         return services;
     }
 }

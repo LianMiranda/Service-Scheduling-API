@@ -7,15 +7,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Services\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\ServiceScheduling.Application\ServiceScheduling.Application.csproj" />
       <ProjectReference Include="..\ServiceScheduling.Domain\ServiceScheduling.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="4.0.2" />
+      <PackageReference Include="AWSSDK.S3" Version="4.0.4.1" />
+      <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.13" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.13">
         <PrivateAssets>all</PrivateAssets>
