@@ -13,16 +13,16 @@ public static class UserExtensions
     {
         return new User(dto.Name, dto.Email, dto.Password, dto.ProfileId);
     }
-    
+
     public static ViewUserDto ToDto(this User user)
     {
-        return new ViewUserDto()
+        return new ViewUserDto
         {
             Id = user.Id,
             Name = user.Name,
             Email = user.Email,
             Profile = new ProfileDto { Role = user.Profile.Role },
-            Services = user.Services.Select(s => new ViewServiceDto()
+            Services = user.Services.Select(s => new ViewServiceDto
                 {
                     Id = s.Id,
                     Name = s.Name,

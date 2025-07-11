@@ -14,6 +14,9 @@ public class UserController : ControllerBase
     {
         try
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var command = new ServiceScheduling.Application.UseCases.User.Save.Command(user);
             var result = await sender.Send(command, cancellationToken);
 
@@ -40,7 +43,7 @@ public class UserController : ControllerBase
         {
             var command = new ServiceScheduling.Application.UseCases.User.GetAll.Command(skip, take);
             var result = await sender.Send(command, cancellationToken);
-            
+
             if (result.isFailure) return NotFound(result.Error.Message);
             return Ok(result.Value);
         }

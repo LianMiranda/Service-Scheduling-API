@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using ServiceScheduling.Application.DTOs.User;
 using ServiceScheduling.Domain.Entities;
 
@@ -10,5 +11,17 @@ public class ViewServiceDto
     public string Description { get; set; }
     public double Price { get; set; }
     public string ImageUrl { get; set; }
-    public ViewProviderDto Provider { get; set; }
+
+    public ViewServiceDto()
+    {
+    }
+
+    public ViewServiceDto(Guid id, string name, string description, double price, string imageUrl)
+    {
+        Id = id;
+        Name = name;
+        Description = description;
+        Price = price;
+        ImageUrl = imageUrl;
+    }
 }
