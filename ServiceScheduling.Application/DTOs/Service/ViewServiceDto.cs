@@ -25,22 +25,3 @@ public class ViewServiceDto
         ImageUrl = imageUrl;
     }
 }
-
-public class ViewLimitedServiceDto
-{
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public double Price { get; set; }
-
-    public ViewLimitedServiceDto(string name, string description, double price)
-    {
-        Name = name;
-        Description = description;
-        Price = price;
-    }
-}
-
-public class ViewServiceWithProviderDto : ViewServiceDto
-{
-    [JsonPropertyOrder(99)] public ViewProviderDto Provider { get; set; }
-}
