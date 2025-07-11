@@ -7,11 +7,11 @@ public class CreateServiceWithFileDto
 {
     [Required] public string Name { get; set; }
     [Required] public string Description { get; set; }
-    [Required] public double Price { get; set; }
+    [Required] public string Price { get; set; }
     public IFormFile? File { get; set; }
     [Required] public Guid ProviderId { get; set; }
 
-    public CreateServiceWithFileDto(string name, string description, double price, IFormFile? file, Guid providerId)
+    public CreateServiceWithFileDto(string name, string description, string price, IFormFile? file, Guid providerId)
     {
         Name = name;
         Description = description;

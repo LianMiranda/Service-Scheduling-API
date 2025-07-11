@@ -1,3 +1,4 @@
+using System.Globalization;
 using MediatR;
 using ServiceScheduling.Application.Interfaces;
 using ServiceScheduling.Domain.Interfaces;
@@ -35,15 +36,21 @@ public sealed class Handler(IServiceRepository repository, IImageService imageSe
 
         if (request.ServiceData.Price != null)
         {
-            if (request.ServiceData.Price.Value > 0)
+            string price = request.ServiceData.Price.Replace(',', '.');
+
+            if (!double.TryParse(price, NumberStyles.Any, CultureInfo.InvariantCulture, out double priceResult))
+                return Result.Failure<Response>(new Error("400", "Price invalid"));
+
+            if (priceResult > 0)
             {
-                service.UpdatePrice(request.ServiceData.Price.Value);
+                service.UpdatePrice(priceResult);
             }
             else
             {
                 return Result.Failure<Response>(new Error("400", "Price cannot have a negative value"));
             }
         }
+
         if (Guid.TryParse(request.ServiceData.ProviderId, out Guid providerId)) service.UpdateProviderId(providerId);
 
         await repository.UpdateAsync(service, cancellationToken);

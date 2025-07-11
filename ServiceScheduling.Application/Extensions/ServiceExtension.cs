@@ -7,9 +7,9 @@ namespace ServiceScheduling.Application.Extensions;
 
 public static class ServiceExtension
 {
-    public static Service ToEntity(this CreateServiceDto dto)
+    public static Service ToEntity(this CreateServiceDto dto, double price)
     {
-        return new Service(dto.Name, dto.Description, dto.Price, dto.ImageUrl!, dto.ProviderId);
+        return new Service(dto.Name, dto.Description, price, dto.ImageUrl!, dto.ProviderId);
     }
 
     public static CreateServiceDto ToCreateServiceDto(this CreateServiceWithFileDto dto, string? imageUrl)
