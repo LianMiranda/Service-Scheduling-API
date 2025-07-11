@@ -1,0 +1,25 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .Net Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+        
+      - name: Install Dependecies
+        run: dotnet restore ServiceScheduling.sln
+      
+      - name: Build
+        run: dotnet build ServiceScheduling.sln --configuration Release --no-restore
